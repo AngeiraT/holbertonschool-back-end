@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 """Gather data from an API"""
-
+import requests
+from sys import argv
 
 
 if __name__ == "__main__":
-    import requests
-    from sys import argv
 
     num = argv[1]  # remember python3 does not count as argument
 
