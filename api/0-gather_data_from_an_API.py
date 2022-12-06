@@ -1,50 +1,44 @@
 #!/usr/bin/python3
-"""
-    Gathers data of an employee ID,
-    returns information about his/her TODO list progress
-"""
-from requests import get
+"""Gather data from an API"""
+import requests
 from sys import argv
 
 
-def infor_employee():
-    """
-       returns information about employees
-    """
-    id_employee = int(argv[1])
-    id_employee = int(argv[1])
-    employee_name = ""
-    number_of_done_task = 0
-    total_number_of_task = 0
-    task_title = []
+def information_employee():
+    """returns information about employees"""
+    num = argv[1]  # python3 does not count as argument
 
-    url_users = 'https://jsonplaceholder.typicode.com/users'
-    url_todos = 'https://jsonplaceholder.typicode.com/todos'
+    user_query = {'id': num}  # this is added as query parameter
+    # that are appended to the endpoint URL
+    response_1 = requests.get("https://jsonplaceholder.typicode.com/users",
+                              params=user_query)  # endpoint URL
 
-    response_one = get(url_users)
-    response_two = get(url_todos)
+    todo_query = {'userId': num}  # match todo list with user specified
+    response_2 = requests.get("https://jsonplaceholder.typicode.com/todos",
+                              params=todo_query)
 
-    if response_one.status_code == 200:
-        response_json_usr = response_one.json()
-        response_json_tod = response_two.json()
+    user = response_1.json()  # .json() is a built in decoder
+    # from request module, returning a list of dictionaries
 
-        for user in response_json_usr:
-            if (user['id'] == id_employee):
-                employee_name = user['name']
+    todo_list = response_2.json()
 
-                for tod in response_json_tod:
-                    if tod['userId'] == id_employee:
-                        total_number_of_task += 1
-                        if tod['completed'] is True:
-                            number_of_done_task += 1
-                            task_title.append(tod['title'])
+    employee_name = user[0].get('name')  # retrieve value from given key
 
-        print('Employee {} is done with tasks({}/{}):'
-              .format(employee_name, number_of_done_task,
-                      total_number_of_task))
-        for title in task_title:
-            print('\t {}'.format(title))
+    completed_tasks = 0
+    total_tasks = 0
+    completed_task_title = []
 
+    for task in todo_list:
+        if task.get('completed') is True:
+            completed_task_title.append(task.get('title'))  # create list
+            # from completed tasks
+            completed_tasks += 1
+        total_tasks += 1
+
+    print("Employee {} is done with tasks({}/{}):"
+          .format(employee_name, completed_tasks, total_tasks))
+    for title in completed_task_title:
+        print('\t {}'.format(title))
 
 if __name__ == "__main__":
-    info_employee()
+    information_employee()
