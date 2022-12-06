@@ -4,7 +4,7 @@ import requests
 from sys import argv
 
 
-if __name__ == "__main__":
+def information_employee():
 
     num = argv[1]  # remember python3 does not count as argument
 
@@ -39,3 +39,6 @@ if __name__ == "__main__":
           .format(employee_name, completed_tasks, total_tasks))
     for title in completed_task_title:
         print("{} {}".format('\t', title))
+
+if __name__ == "__main__":
+    information_employee()
