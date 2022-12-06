@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 """ extend your Python script to export data in the CSV format """
 
+import requests
+from sys import argv
 
-if __name__ == '__main__':
-    import requests
-    from sys import argv
-
+def csv_format():
+    """exports data in csv format"""
+    
     u_id = argv[1]
     api_url = "https://jsonplaceholder.typicode.com/users/{}".format(u_id)
     api_url2 = "https://jsonplaceholder.typicode.com/todos?userId={}"\
@@ -21,3 +22,5 @@ if __name__ == '__main__':
             f.write('"{}","{}","{}","{}"\n'.format(
                 u_id, EMPLOYEE_NAME, TASK_COMPLETED_STATUS, TASK_TITLE))
 
+if __name__ == '__main__':
+    csv_format()
