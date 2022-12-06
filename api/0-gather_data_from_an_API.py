@@ -6,7 +6,7 @@ from sys import argv
 
 def information_employee():
     """request information"""
-    num = argv[1]  # remember python3 does not count as argument
+    num = argv[1]  # python3 does not count as argument
 
     user_query = {'id': num}  # this is added as query parameter
     # that are appended to the endpoint URL
